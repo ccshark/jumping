@@ -1,24 +1,45 @@
 package
 {
+	//----------------------------------------------------
+	// Imports
+	//----------------------------------------------------
 	import events.NavigationEvent;
-	
 	import screens.InGame;
 	import screens.Welcome;
-	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
+	//----------------------------------------------------
+	// Class Game
+	//----------------------------------------------------
 	public class Game extends Sprite
 	{
+		//----------------------------------------------------
+		// Private methods
+		//----------------------------------------------------
+		
+		/* Parameter för Welcome klassen. */
 		private var screenWelcome:Welcome;
+		
+		/* Parameter för InGame klassen. */
 		private var screenInGame:InGame;
 		
+		//----------------------------------------------------
+		// Constructor
+		//----------------------------------------------------
 		public function Game()
 		{
 			super();
 			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
+		//----------------------------------------------------
+		// Private methods
+		//----------------------------------------------------
+		
+		/**
+		 * Lägger ut welcome och InGame objekten på scenen.
+		 */
 		private function onAddedToStage(event:Event):void
 		{
 			trace("starling framework initialized!");
@@ -32,9 +53,12 @@ package
 			screenWelcome = new Welcome();
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
-			trace("HEJSAN");
 		}
 		
+		/**
+		 * Tar bort welcome objektet om navigations eventet 
+		 * är play.
+		 */
 		private function onChangeScreen(event:NavigationEvent):void
 		{
 			switch (event.params.id)

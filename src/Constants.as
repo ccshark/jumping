@@ -1,5 +1,11 @@
+/**
+ * Konstanter som är övergripande för hela programmet.
+ */
 package
 {
+	//----------------------------------------------------
+	// Class Constants
+	//----------------------------------------------------
     public class Constants
     {
         public static const GameWidth:int  = 320;

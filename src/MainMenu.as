@@ -1,5 +1,9 @@
 package
 {
+	
+	//----------------------------------------------------
+	// Imports
+	//----------------------------------------------------
     import flash.utils.getQualifiedClassName;
     
     import scenes.AnimationScene;
@@ -25,15 +29,32 @@ package
     import starling.textures.Texture;
     import starling.utils.VAlign;
 
+	
+	//----------------------------------------------------
+	// Class
+	//----------------------------------------------------
     public class MainMenu extends Sprite
     {
+		
+		//----------------------------------------------------
+		// Constructor
+		//----------------------------------------------------
         public function MainMenu()
         {
             init();
         }
         
+		//----------------------------------------------------
+		// Private methods
+		//----------------------------------------------------
+		
+		/**
+		 * Lägger till systemverktyg för starling.
+		 * 
+		 */
         private function init():void
         {
+			//TODO: logo finns inte med i spritesheeten.
             var logo:Image = new Image(Game.assets.getTexture("logo"));
             addChild(logo);
             
