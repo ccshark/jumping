@@ -37,15 +37,13 @@ package objects
 			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
-<<<<<<< HEAD
 		//----------------------------------------------------
 		// Private methods
 		//----------------------------------------------------
-=======
 		
-		
-		
->>>>>>> origin/master
+		/**
+		 * 
+		 */
 		private function onAddedToStage(event:Event):void
 		{
 			this.removeEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
