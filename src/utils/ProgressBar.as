@@ -1,9 +1,19 @@
 package utils
 {
-    import flash.display.GradientType;
+    
+	//--------------------------------------------------------------------------
+	// Imports
+	//---------------------------------------------------------------------------	
+	
+	import flash.display.GradientType;
     import flash.display.Shape;
     import flash.display.Sprite;
     import flash.geom.Matrix;
+
+	//--------------------------------------------------------------------------
+	// Public class
+	//------------------------------------------
+	
 
     public class ProgressBar extends Sprite
     {

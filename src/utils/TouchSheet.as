@@ -1,13 +1,30 @@
+/**
+ *  Klass som hanterar touch events
+ *  
+ */
+
+
 package utils
 {
+	
+	//--------------------------------------------------------------------------
+	// Imports
+	//--------------------------------------------------------------------------
+	
+	
     import flash.geom.Point;
-    
     import starling.display.DisplayObject;
     import starling.display.Sprite;
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
-
+	
+	
+	//--------------------------------------------------------------------------
+	// Public class
+	//------------------------------------------
+	
+	
     public class TouchSheet extends Sprite
     {
         public function TouchSheet(contents:DisplayObject=null)
@@ -77,7 +94,7 @@ package utils
                 parent.addChild(this); // bring self to front
             
             // enable this code to see when you're hovering over the object
-            // touch = event.getTouch(this, TouchPhase.HOVER);            
+           // touch = event.getTouch(this, TouchPhase.HOVER);            
             // alpha = touch ? 0.8 : 1.0;
         }
         
