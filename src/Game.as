@@ -32,6 +32,7 @@ package
 			screenWelcome = new Welcome();
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
+			trace("HEJSAN");
 		}
 		
 		private function onChangeScreen(event:NavigationEvent):void
