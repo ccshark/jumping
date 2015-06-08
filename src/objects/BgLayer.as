@@ -1,3 +1,7 @@
+/**
+ * Hanterar alla objekt som hör till bakgrunden.
+ * Väggar, objekt.
+ */
 package objects
 {
 	//----------------------------------------------------
@@ -42,7 +46,7 @@ package objects
 		//----------------------------------------------------
 		
 		/**
-		 * 
+		 * placerar ut objekten som ska finnas på scenen.
 		 */
 		private function onAddedToStage(event:Event):void
 		{
@@ -74,11 +78,17 @@ package objects
 		//----------------------------------------------------
 		// Public methods
 		//----------------------------------------------------
+		/**
+		 * Returnerar parallax
+		 */
 		public function get parallax():Number
 		{
 			return _parallax;
 		}
-
+	
+		/**
+		 * Sätter parallax
+		 */
 		public function set parallax(value:Number):void
 		{
 			_parallax = value;
