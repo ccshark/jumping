@@ -33,21 +33,19 @@ package
 			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
-<<<<<<< Updated upstream
 		//----------------------------------------------------
 		// Private methods
 		//----------------------------------------------------
 		
 		/**
-		 * Lägger ut welcome och InGame objekten på scenen.
+		 * 
 		 */
-=======
 		
 		/**
+		* Lägger ut welcome och InGame objekten på scenen.
 		* Laddar både screen för att spela samt meny. 
 		* Liknande Sessions i Stick OS.
 		*/
->>>>>>> Stashed changes
 		private function onAddedToStage(event:Event):void
 		{
 			trace("starling framework initialized!");
@@ -63,10 +61,6 @@ package
 			screenWelcome = new Welcome();
 			this.addChild(screenWelcome);
 			screenWelcome.initialize();
-<<<<<<< Updated upstream
-=======
-			
->>>>>>> Stashed changes
 		}
 		
 		/**
