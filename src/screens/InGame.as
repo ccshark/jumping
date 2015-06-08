@@ -1,12 +1,19 @@
+/**
+ *  En Klass som används som en session för när man startat spelet
+ *  
+ */
+
 package screens
 {
+	//--------------------------------------------------------------------------
+	// Imports
+	//--------------------------------------------------------------------------
+	
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
 	import objects.GameBackground;
 	import objects.Hero;
-	import objects.Item;
-	import objects.Obstacle;
 	
 	import starling.display.Button;
 	import starling.display.Sprite;
@@ -20,37 +27,62 @@ package screens
 	import starling.utils.VAlign;
 	import starling.utils.deg2rad;
 	
+	//--------------------------------------------------------------------------
+	// Public class
+	//------------------------------------------
+	
 	public class InGame extends Sprite
 	{
+		
+		
+		/**  Objekt i gamemode */ 
 		private var startButton:Button;
 		private var bg:GameBackground;
 		private var hero:Hero;
+		private var scoreText:TextField;
 		
-		private var timePrevious:Number;
+		/** Tid egenskaper */
+		private var timePrevious:Number; 
 		private var timeCurrent:Number;
 		private var elapsed:Number;
 		
-		private var gameState:String;
-		private var playerSpeed:Number;
-		private var hitObstacle:Number = 0;
+		/** I vilket läge hero:en befinner sig , idle eller flying.*/
+		private var gameState:String; 
+		
+		/** spelarens hastighet */
+		private var playerSpeed:Number; 
 		private const MIN_SPEED:Number = 650;
 		
+		/** Distansen */
 		private var scoreDistance:int;
-		private var obstacleGapCount:int;
 		
+		/** Om spelaren träffar något hinder */
+		private var hitObstacle:int;
+	
+		/** Arean för spelet */
 		private var gameArea:Rectangle;
 		
+		/** För att känna av touch */
 		private var touch:Touch;
-		private var touchX:Number = 300; // X positionen
-		private var touchY:Number = 300; // Y positionen
 		
-		private var obstaclesToAnimate:Vector.<Obstacle>;
-		private var itemsToAnimate:Vector.<Item>;
+		/** Spelarens Y och X  position */
+		private var touchX:Number = 300; 
+		private var touchY:Number = 300; 
 		
-		private var scoreText:TextField;
-		private var inAir:Boolean = false; // om spelaren är i luften, används för att spelaren inte ska kunna hoppa ändra riktning när den är i luften.
-		private var jump:Boolean = false // spelaren ska hoppa
-		private var jumpDirection:Boolean; // åt vilket håll spelaren ska röra sig, false = höger, true = vänster
+		
+		/** om spelaren är i luften, används för att spelaren inte ska kunna hoppa, ändra riktning när den är i luften. */
+		private var inAir:Boolean = false; 
+		
+		/** Boolean om spelaren ska hoppa*/
+		private var jump:Boolean = false 
+			
+		/** åt vilket håll spelaren ska röra sig, false = höger, true = vänster */
+		private var jumpDirection:Boolean; 
+		
+		
+		//----------------------------------------------------------------------
+		// Constructor method
+		//----------------------------------------------------------------------
 		
 		public function InGame()
 		{
@@ -58,6 +90,11 @@ package screens
 			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
+		/**
+		 * Startas när inGame är utlagd på stage
+		 * startar DrawGame
+		 * Skapar scoreField
+		 */
 		private function onAddedToStage(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -73,6 +110,10 @@ package screens
 			this.addChild(scoreText);
 		}
 		
+		
+		/**
+		 *  Skapar de element  som finns i gamemode, knapp, hero och bakgrund
+		 */
 		private function drawGame():void
 		{
 			bg = new GameBackground();
@@ -91,15 +132,23 @@ package screens
 			gameArea = new Rectangle(0, 100, stage.stageWidth, stage.stageHeight);
 		}
 		
+		
+		/**
+		 *  Dispose funktion, 
+		 *  gömmer game  när man går ut i menyn
+		 */
 		public function disposeTemporarily():void
 		{
 			this.visible = false;
 		}
 		
+		/**
+		 * Initisierar game, gör objektet synligt
+		 * Egenskaper återställs samt skapas.
+		 */
 		public function initialize():void
 		{
 			this.visible = true;
-			
 			this.addEventListener(Event.ENTER_FRAME, checkElapsed);
 			
 			hero.x = -stage.stageWidth;
@@ -112,14 +161,15 @@ package screens
 			
 			bg.speed = 0;
 			scoreDistance = 0;
-			obstacleGapCount = 0;
-			
-			obstaclesToAnimate = new Vector.<Obstacle>();
-			itemsToAnimate = new Vector.<Item>();
+	
 			
 			startButton.addEventListener(Event.TRIGGERED, onStartButtonClick);
 		}
 		
+		
+		/**
+		 *  Funktion som startas när man trycker på startknappen i börhan av varje omgång.
+		 */
 		private function onStartButtonClick(event:Event):void
 		{
 			startButton.visible = false;
@@ -147,20 +197,20 @@ package screens
 			touch = event.getTouch(stage, TouchPhase.BEGAN);
 			
 			if(touch){
-				//touchX = touch.globalX;
 				jump = true;
 			}		
 		}
 		
 		/**
-		 * Game loop som hanterar de olika lägena för spelaren.
+		 * Funktion som hanterar de olika lägena för Hero.
+		 * 
 		 */
 		private function onGameTick(event:Event):void
 		{
 			switch(gameState)
 			{
 				case "idle":
-					// Take off'
+					// Take off' används i början  av spelet.
 					
 					if (hero.x < stage.stageWidth * 0.5 * 0.5)
 					{
@@ -177,83 +227,23 @@ package screens
 					break;
 				case "flying":
 					
+					
 					if (hitObstacle <= 0) // om man inte träffar ett hinder
 					{
+						flyingMode();	
 						
-						hero.x -= (hero.x - touchX) * 0.1;
-						
-						// Om jump är sant ska spelaren röra sig
-						if(jump == true){
-							if(jumpDirection == false) touchX += 10;
-							else touchX -= 10;
-							
-						}
-						
-						
-						// Rotation på spelaren när man hoppar
-						if (-(hero.x - touchX) < 100 && -(hero.x - touchX) > -150)
-						{
-							hero.rotation = deg2rad(-(hero.x - touchX) * 0.2);
-							
-							//Roterar spelaren mitt i hoppet.
-							if(hero.x < 500) {
-								hero.scaleX = -1;
-							}
-							if(hero.x > 400) {
-								hero.scaleX = 1;
-							}
-						}
-						
-						// om man träffar högra väggen
-						if (hero.x > (gameArea.right - hero.width * 0.5) && jumpDirection == false)
-						{
-							//hero.x = gameArea.right - hero.width * 0.5;
-							//hero.rotation = deg2rad(0);
-							jump = false;
-							jumpDirection = true;
-							//hero.scaleX = 1;
-						} 
-
-						
-						//Om man träffar vänstra väggen
-						if (hero.x < (gameArea.left + hero.width * 0.5) && jumpDirection == true)
-						{
-							//hero.x = gameArea.left + hero.width * 0.5;
-							//hero.rotation = deg2rad(0);
-							jump = false;
-							jumpDirection = false;
-							
-							//hero.scaleX = -1;
-						} 
 					}
 					else
 					{
-						hitObstacle--;
 						cameraShake();
 					}
-					
-					//Ändrar spelarens riktning efter hoppet.
-					/*if(jumpDirection && jumping) {
-						hero.scaleX = 1;
-					}
-					if(!jumpDirection && jumping) {
-						hero.scaleX = -1;
-					} */
-					
+				
 					
 					playerSpeed -= (playerSpeed - MIN_SPEED) * 0.1; // 
 					bg.speed = playerSpeed * elapsed; // snabbheten på banrenderingen
-					//hero.y --; // spelaren rör sig sakta uppåt
 					
 					scoreDistance += (playerSpeed * elapsed) * 0.1;
-					
 					scoreText.text = "Score: " + scoreDistance; //  Poängen
-					
-					//initObstacle();
-					//animateObstacles();
-					
-					//createFoodItems();
-					//animateItems();
 					
 					break;
 				case "over":
@@ -261,44 +251,59 @@ package screens
 			}
 		}
 		
-		/*
-		private function animateItems():void
+		/** 
+		 * Gäller om spelares gamestate är flying
+		 */
+		private function flyingMode():void
 		{
-			var itemToTrack:Item;
+			hero.x -= (hero.x - touchX) * 0.1;
 			
-			for(var i:uint = 0; i < itemsToAnimate.length; i++)
+			// Om jump är sant ska spelaren röra sig
+			if(jump == true){
+				if(jumpDirection == false) touchX += 10;
+				else touchX -= 10;
+				
+			}
+			
+			// Rotation på spelaren när man hoppar
+			if (-(hero.x - touchX) < 100 && -(hero.x - touchX) > -150)
 			{
-				itemToTrack = itemsToAnimate[i];
+				hero.rotation = deg2rad(-(hero.x - touchX) * 0.2);
 				
-				itemToTrack.x -= playerSpeed * elapsed;
-				
-				if (itemToTrack.bounds.intersects(hero.bounds))
-				{
-					itemsToAnimate.splice(i, 1);
-					this.removeChild(itemToTrack);	
+				//Roterar spelaren mitt i hoppet.
+				if(hero.x < 500) {
+					hero.scaleX = -1;
 				}
-				
-				if (itemToTrack.x < -50)
-				{
-					itemsToAnimate.splice(i, 1);
-					this.removeChild(itemToTrack);	
+				if(hero.x > 400) {
+					hero.scaleX = 1;
 				}
 			}
-		}
+			
+			// om man träffar högra väggen
+			if (hero.x > (gameArea.right - hero.width * 0.5) && jumpDirection == false)
+			{	
+				jump = false;
+				jumpDirection = true;
+			} 
+			
+			
+			//Om man träffar vänstra väggen
+			if (hero.x < (gameArea.left + hero.width * 0.5) && jumpDirection == true)
+			{
+				jump = false;
+				jumpDirection = false;
+				
+				
+			} 
+			
+		}		
 		
-		private function createFoodItems():void
-		{
-			if (Math.random() > 0.95)
-			{
-				var itemToTrack:Item = new Item(Math.ceil(Math.random() * 5));
-				itemToTrack.x = stage.stageWidth + 50;
-				itemToTrack.y = int(Math.random() * (gameArea.bottom - gameArea.top)) + gameArea.top;
-				this.addChild(itemToTrack);
-				
-				itemsToAnimate.push(itemToTrack);
-			}
-		}
-		*/
+		
+		/**
+		 *  Skapar kamerarörelse, startas endast när spelaren träffar ett hinder
+		 * 
+		 * TODO: Beroende på hur spelaren ska reagera vid träff, kan metoden tas bort.
+		 */
 		private function cameraShake():void
 		{
 			if (hitObstacle > 0)
@@ -312,85 +317,11 @@ package screens
 				this.y = 0;
 			}
 		}
-		/*
-		private function animateObstacles():void
-		{
-			var obstacleToTrack:Obstacle;
-			
-			for (var i:uint = 0;i<obstaclesToAnimate.length;i++)
-			{
-				obstacleToTrack = obstaclesToAnimate[i];
-				
-				if (obstacleToTrack.alreadyHit == false && obstacleToTrack.bounds.intersects(hero.bounds))
-				{
-					obstacleToTrack.alreadyHit = true;
-					obstacleToTrack.rotation = deg2rad(70);
-					hitObstacle = 30;
-					playerSpeed *= 0.5;
-				}
-				
-				if (obstacleToTrack.distance > 0)
-				{
-					obstacleToTrack.distance -= playerSpeed * elapsed;
-				}
-				else
-				{
-					if (obstacleToTrack.watchOut)
-					{
-						obstacleToTrack.watchOut = false;
-					}
-					obstacleToTrack.x -= (playerSpeed + obstacleToTrack.speed) * elapsed;
-				}
-				
-				if (obstacleToTrack.x < -obstacleToTrack.width || gameState == "over")
-				{
-					obstaclesToAnimate.splice(i, 1);
-					this.removeChild(obstacleToTrack);
-				}
-			}
-		}
+	
 		
-		private function initObstacle():void
-		{
-			if (obstacleGapCount < 1200)
-			{
-				obstacleGapCount += playerSpeed * elapsed;
-			}
-			else if (obstacleGapCount != 0)
-			{
-				obstacleGapCount = 0;
-				createObstacle(Math.ceil(Math.random() * 4), Math.random() * 1000 + 1000);
-				
-			}
-		}
-		
-		private function createObstacle(type:Number, distance:Number):void
-		{
-			var obstacle:Obstacle = new Obstacle(type, distance, true, 300);
-			obstacle.x = stage.stageWidth;
-			this.addChild(obstacle);
-			
-			if (type <= 3)
-			{
-				if (Math.random() > 0.5)
-				{
-					obstacle.y = gameArea.top;
-					obstacle.position = "top";
-				}
-				else
-				{
-					obstacle.y = gameArea.bottom - obstacle.height;
-					obstacle.position = "bottom";
-				}
-			}
-			else
-			{
-				obstacle.y = int(Math.random() * (gameArea.bottom - obstacle.height - gameArea.top)) + gameArea.top;
-				obstacle.position = "middle";
-			}
-			obstaclesToAnimate.push(obstacle);
-		}
-		*/
+		/**
+		 * Hur långt i spelet spelaren har kommit
+		 */
 		private function checkElapsed(event:Event):void
 		{
 			timePrevious = timeCurrent;

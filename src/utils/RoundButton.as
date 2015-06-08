@@ -1,5 +1,14 @@
+/**
+ *  Klass används för att ta reda på hitTest i vid användandet av touch.
+ */
+
 package utils
 {
+	
+	//--------------------------------------------------------------------------
+	// Imports
+	//--------------------------------------------------------------------------
+
     import flash.geom.Point;
     import flash.geom.Rectangle;
     
@@ -7,6 +16,10 @@ package utils
     import starling.display.DisplayObject;
     import starling.textures.Texture;
     
+	//--------------------------------------------------------------------------
+	// Public class
+	//------------------------------------------
+	
     public class RoundButton extends Button
     {
         public function RoundButton(upState:Texture, text:String="", downState:Texture=null)
