@@ -1,3 +1,7 @@
+/**
+ * Lägger ut menyn och alla starling verkryg för
+ * debugging och prestandakontroll.
+ */
 package
 {
 	
