@@ -1,10 +1,21 @@
 package objects
 {
+	
+	//--------------------------------------------------------------------------
+	// Imports
+	//---------------------------------------------------------------------------	
+	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
+	//--------------------------------------------------------------------------
+	// Public class
+	//------------------------------------------
+	
 	public class GameBackground extends Sprite
 	{
+		
+		/** Lagrena */
 		private var bgLayer1:BgLayer;
 		private var bgLayer2:BgLayer;
 		private var bgLayer3:BgLayer;
@@ -12,12 +23,22 @@ package objects
 		
 		private var _speed:Number = 0;
 		
+		//----------------------------------------------------------------------
+		// Constructor method
+		//----------------------------------------------------------------------
+		
 		public function GameBackground()
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
+		
+		
+		/**
+		 * Startas när gameBackground  är utlagd på stage
+		 * Startar en Enter_frame
+		 */
 		private function onAddedToStage(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -60,11 +81,17 @@ package objects
 			if (bgLayer4.y < -stage.stageHeight) bgLayer4.y = 0; */
 		}
 		
+		/**
+		 * Hämtas ifrån inGame klassen
+		 */
 		public function get speed():Number
 		{
 			return _speed;
 		}
 
+		/**
+		 * Förändras ifrån inGame klassen.
+		 */
 		public function set speed(value:Number):void
 		{
 			_speed = value;
