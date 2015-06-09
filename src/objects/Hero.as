@@ -9,6 +9,7 @@ package objects
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import flash.geom.Point;
 	
 	
 	//--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ package objects
 	public class Hero extends Sprite
 	{
 		private var heroArt:MovieClip;
+		
+		public var hitPointAxe:Point = new Point(0,0);
 		
 		//----------------------------------------------------------------------
 		// Constructor method
@@ -37,7 +40,20 @@ package objects
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			createHeroArt();
+			createHeroHitPoints();
 		}
+		
+		
+		/**
+		 *  Skapar hitPoints för objektet
+		 */
+		private function createHeroHitPoints():void
+		{
+			
+		
+		}
+		
+		
 		
 		/**
 		 *  Lägger dit heroSkin

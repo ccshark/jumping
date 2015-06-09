@@ -100,6 +100,7 @@ package
 		{
 			if (gameTextures[name] == undefined)
 			{
+				
 				var bitmap:Bitmap = new Assets[name]();
 				gameTextures[name] = Texture.fromBitmap(bitmap);
 			}

@@ -20,8 +20,8 @@ package objects
 		//----------------------------------------------------
 		// Private properties
 		//----------------------------------------------------
-		private var image1:Image;
-		private var image2:Image;
+		public var image1:Image;
+		public var image2:Image;
 		
 		private var _layer:int;
 		private var _parallax:Number;

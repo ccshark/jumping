@@ -9,6 +9,7 @@ package screens
 	// Imports
 	//--------------------------------------------------------------------------
 	
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
@@ -18,7 +19,6 @@ package screens
 	import starling.display.Button;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -257,7 +257,7 @@ package screens
 		private function flyingMode():void
 		{
 			hero.x -= (hero.x - touchX) * 0.1;
-			
+			hero.hitPointAxe.x = hero.x + 50;
 			// Om jump är sant ska spelaren röra sig
 			if(jump == true){
 				if(jumpDirection == false) touchX += 10;
@@ -280,21 +280,28 @@ package screens
 			}
 			
 			// om man träffar högra väggen
-			if (hero.x > (gameArea.right - hero.width * 0.5) && jumpDirection == false)
+			if (bg.bgLayer2.image2.bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y) && jumpDirection == false)
 			{	
 				jump = false;
 				jumpDirection = true;
+				trace(hero.hitPointAxe.x);
 			} 
 			
 			
 			//Om man träffar vänstra väggen
-			if (hero.x < (gameArea.left + hero.width * 0.5) && jumpDirection == true)
+			if (bg.bgLayer2.image1.bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)  && jumpDirection == true)
 			{
+				
+				trace(hero.hitPointAxe.x);
 				jump = false;
 				jumpDirection = false;
 				
 				
 			} 
+			
+			
+			
+			
 			
 		}		
 		
