@@ -9,12 +9,12 @@ package screens
 	// Imports
 	//--------------------------------------------------------------------------
 	
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
 	import objects.GameBackground;
 	import objects.Hero;
+	import objects.Obstacle;
 	
 	import starling.display.Button;
 	import starling.display.Sprite;
@@ -166,7 +166,6 @@ package screens
 			startButton.addEventListener(Event.TRIGGERED, onStartButtonClick);
 		}
 		
-		
 		/**
 		 *  Funktion som startas när man trycker på startknappen i börhan av varje omgång.
 		 */
@@ -288,25 +287,21 @@ package screens
 			}
 
 			// om man träffar högra väggen
-			if (bg.bgLayer2.image2.bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y) && jumpDirection == false)
-			{	
-				jump = false;
-				jumpDirection = true;
-				trace(hero.hitPointAxe.x);
-			} 
 			
-			
-			//Om man träffar vänstra väggen
-			if (bg.bgLayer2.image1.bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)  && jumpDirection == true)
-			{
-				
-				trace(hero.hitPointAxe.x);
-				jump = false;
-				jumpDirection = false;
-				
-				
-			} 
-			
+			for(var i:int = 0; i < bg.bgLayer2.iceblocks.length; i++) {
+				if(bg.bgLayer2.iceblocks[i].bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)) {
+					if(jumpDirection) {
+						trace("left");
+						jump = false;
+						jumpDirection = false;
+					} else {
+						jump = false;
+						jumpDirection = true;
+						trace("right");
+					}
+				}
+
+			}
 		}		
 		
 		

@@ -56,7 +56,6 @@ package objects
 		}
 		
 		
-		
 		/**
 		 *  Lägger dit heroSkin
 		 */

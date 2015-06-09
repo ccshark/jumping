@@ -18,11 +18,17 @@ package objects
 	{
 		
 		//----------------------------------------------------
-		// Private properties
+		// Public properties
 		//----------------------------------------------------
 		public var image1:Image;
 		public var image2:Image;
+		public var block:Image;
 		
+		public var iceblocks:Vector.<Image> = new Vector.<Image>;
+		
+		//----------------------------------------------------
+		// Private properties
+		//----------------------------------------------------
 		private var _layer:int;
 		private var _parallax:Number;
 		
@@ -56,11 +62,15 @@ package objects
 			{
 				image1 = new Image(Assets.getTexture("BgLayer" + _layer));
 				image2 = new Image(Assets.getTexture("BgLayer" + _layer));
+				block = new Image(Assets.getTexture("BgLayer" + _layer));
 			}
 			else
 			{
 				image1 = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
 				image2 = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
+				block = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
+				
+				
 			}
 			
 			image1.x = 0;
@@ -71,8 +81,21 @@ package objects
 			image2.y = image1.y;
 			image2.scaleY = 2; //temp
 			
+			block.x = 400;
+			block.y = 2000;//stage.stageHeight - image1.height;
+			block.scaleY = 2; //temp
+			
 			this.addChild(image1);
 			this.addChild(image2);
+			
+			this.addChild(block);
+			
+			iceblocks.push(block);
+			
+			iceblocks.push(image1);
+			iceblocks.push(image2);
+			
+			
 		}
 		
 		//----------------------------------------------------
@@ -92,6 +115,28 @@ package objects
 		public function set parallax(value:Number):void
 		{
 			_parallax = value;
+		}
+		
+		//----------------------------------------------------
+		// Private methods
+		//----------------------------------------------------
+		
+		private function setIceblock():void {
+			block = new Image(Assets.getTexture("BgLayer" + _layer));
+		}
+		
+		private function createIceblocks():void {
+			
+			block.scaleX = 1;
+			block.scaleY = 2;
+			
+			block.x = 500;
+			block.y = stage.stageHeight;
+			
+			this.addChild(block);
+			
+			iceblocks.push(block);
+			
 		}
 	}
 }
