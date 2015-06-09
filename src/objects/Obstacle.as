@@ -112,8 +112,8 @@ package objects
 			
 			if (_type == 4)
 			{
-				watchOutAnimation.x = -watchOutAnimation.texture.width;
-				watchOutAnimation.y = obstacleAnimation.y + (obstacleAnimation.texture.height * 0.5) - (watchOutAnimation.texture.height * 0.5);
+				//watchOutAnimation.x = -watchOutAnimation.texture.width;
+				//watchOutAnimation.y = obstacleAnimation.y + (obstacleAnimation.texture.height * 0.5) - (watchOutAnimation.texture.height * 0.5);
 			}
 			else
 			{
@@ -125,29 +125,35 @@ package objects
 		
 		private function createObstacleCrashArt():void
 		{
-			obstacleCrashImage = new Image(Assets.getAtlas().getTexture("obstacle" + _type + "_crash"));
+			obstacleCrashImage = new Image(Assets.getAtlas().getTexture("iceblock"));
 			obstacleCrashImage.visible = false;
 			this.addChild(obstacleCrashImage);
 		}
 		
+		
+		/**
+		 * Skapar ett nytt isblock
+		 */
 		private function createObstacleArt():void
 		{
 			if (_type == 4)
 			{
-				obstacleAnimation = new Image(Assets.getTexture("stone"));
-				//obstacleAnimation = new MovieClip(Assets.getAtlas().getTextures("obstacle" + _type + "_0"), 10);
-				//Starling.juggler.add(obstacleAnimation);
-				obstacleAnimation.x = 0;
-				obstacleAnimation.y = 0;
-				this.addChild(obstacleAnimation);
+				var block:Image = new Image(Assets.getAtlas().getTexture("icewall"));
+				
+				block.x = 0;
+				block.y = 0
+				block.scaleY = 4; //temp
+				
+				this.addChild(block);
 			}
 			else
 			{			
-				obstacleImage = new Image(Assets.getAtlas().getTexture("obstacle" + _type));
+				obstacleImage = new Image(Assets.getAtlas().getTexture("iceblock"));
 				obstacleImage.x = 0;
 				obstacleImage.y = 0;
 				this.addChild(obstacleImage);
 			}
 		}
+		
 	}
 }

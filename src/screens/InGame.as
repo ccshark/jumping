@@ -17,6 +17,7 @@ package screens
 	import objects.Obstacle;
 	
 	import starling.display.Button;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.Touch;
@@ -88,6 +89,11 @@ package screens
 		private var fallingSpeed:Number = 1.048; // WV = 1.035, högre värde , längre drop
 		private var _jumpProgress:Number = jumpStart; // // Hur mycket spelaren faller varje frame
 		private var jumpPush:int = 0; // Värde som bestämmer hur länge pushen från väggen ska gälla
+		
+		
+		//OBS!!
+		private var obstacleGapCount:int;
+		private var iceblocks:Array;
 		
 		
 		//----------------------------------------------------------------------
@@ -172,6 +178,12 @@ package screens
 			
 			bg.speed = 0;
 			scoreDistance = 0;
+			
+			obstacleGapCount = 0;
+			
+			iceblocks = new Array();
+			
+			createWalls();
 	
 			
 			startButton.addEventListener(Event.TRIGGERED, onStartButtonClick);
@@ -245,7 +257,7 @@ package screens
 					}
 					else
 					{
-						cameraShake();
+						//cameraShake();
 					}
 				
 					
@@ -254,6 +266,9 @@ package screens
 					
 					scoreDistance += (playerSpeed * elapsed) * 0.1;
 					scoreText.text = "Score: " + scoreDistance; //  Poängen
+					
+					initObstacle();
+					animateObstacles();
 					
 					break;
 				case "over":
@@ -288,17 +303,20 @@ package screens
 			//Gör så att spelaren stannar vid isväggarna
 			if(jumpDirection) {
 				hero.hitPointAxe.x = hero.x - 110;
+				hero.hitPointAxe.y = hero.y;
+				trace("axe X" + hero.hitPointAxe.x);
+				trace("axe Y" + hero.hitPointAxe.y);
+				trace("hero X" + hero.x);
+				trace("hero Y" + hero.y);
 			}
 			else if(!jumpDirection) {
 				hero.hitPointAxe.x = hero.x + 110;
+				hero.hitPointAxe.y = hero.y;
 			}
 
 			// om man träffar högra väggen
-			
-			trace(bg.bgLayer2.iceblocks[0].y);
-			
-			for(var i:int = 0; i < bg.bgLayer2.iceblocks.length; i++) {
-				if(bg.bgLayer2.iceblocks[i].bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)) {
+			for(var i:int = 0; i < iceblocks.length; i++) {
+				if(iceblocks[i].bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)) {
 					if(jumpDirection) {
 						trace("left");
 						jump = false;
@@ -307,6 +325,7 @@ package screens
 						jump = false;
 						jumpDirection = true;
 						trace("right");
+						trace(iceblocks.length);
 					}
 				}
 
@@ -330,10 +349,7 @@ package screens
 					_jumpProgress *= fallingSpeed;
 					hero.y += _jumpProgress;
 				} else hero.y -= 3; // liten rörelse uppåt innan spelaren faller
-				
-				
-				
-				
+
 				
 			}else{
 				_jumpProgress = jumpStart; // Reset när spelaren avslutat hoppet
@@ -369,6 +385,106 @@ package screens
 				this.x = 0;
 				this.y = 0;
 			}
+		}
+		
+		private function createWalls():void {
+			for(var i:int = 0; i < 2; i++) {
+				var obstacle:Obstacle = new Obstacle(4, 0, true, 0); //Skapar ny obstacle instance
+				if(i == 0) {
+					obstacle.x = -30;
+					obstacle.y = -300;
+				} else {
+					obstacle.x = stage.stageWidth - 50;
+					obstacle.y = -300;
+				}
+				
+				this.addChild(obstacle);
+				iceblocks.push(obstacle);
+			}
+	
+		}
+		
+		private function animateObstacles():void
+		{
+			var obstacleToTrack:Obstacle;
+			for (var i:uint = 0;i<iceblocks.length;i++)
+			{
+				//obstacleToTrack.distance -= playerSpeed * elapsed;
+				//obstacleToTrack = iceblocks[i];
+				
+				/*if (obstacleToTrack.alreadyHit == false && obstacleToTrack.bounds.intersects(hero.bounds))
+				{
+					
+					//När ett block träffas
+					obstacleToTrack.alreadyHit = true;
+					obstacleToTrack.rotation = deg2rad(70);
+					hitObstacle = 30;
+					playerSpeed *= 0.5; 
+				} 
+				
+				if (obstacleToTrack.distance > 0)
+				{
+					obstacleToTrack.distance -= playerSpeed * elapsed;
+				}
+				/*else
+				{
+					if (obstacleToTrack.watchOut)
+					{
+						obstacleToTrack.watchOut = false;
+					}
+					//Sätter hastigheten på blocken
+					obstacleToTrack.y -= (obstacleToTrack.speed) * elapsed;
+				}
+				
+				if (obstacleToTrack.x < -obstacleToTrack.width || gameState == "over")
+				{
+					//obstaclesToAnimate.splice(i, 1);
+					//this.removeChild(obstacleToTrack);
+				} */
+			}
+		}
+		
+		private function initObstacle():void
+		{
+			if (obstacleGapCount < 1200)
+			{
+				obstacleGapCount += playerSpeed * elapsed;
+			}
+			else if (obstacleGapCount != 0)
+			{
+				obstacleGapCount = 0;
+				createObstacle(Math.ceil(Math.random() * 1), Math.random() * 1000 + 1000);
+				
+			}
+		}
+		
+		private function createObstacle(type:Number, distance:Number):void
+		{
+			var obstacle:Obstacle = new Obstacle(type, distance, true, 100); //Skapar ny obstacle instance
+			obstacle.x = 200; // start position
+			this.addChild(obstacle);
+			iceblocks.push(obstacle);
+			
+			//olika startpositioner för blocken
+			if (type <= 3)
+			{
+				if (Math.random() > 0.5)
+				{
+					obstacle.y = gameArea.top;
+					obstacle.position = "top";
+				}
+				else
+				{
+					obstacle.y = gameArea.bottom - obstacle.height;
+					obstacle.position = "bottom";
+				}
+			}
+			else
+			{
+				obstacle.y = int(Math.random() * (gameArea.bottom - obstacle.height - gameArea.top)) + gameArea.top;
+				obstacle.position = "middle";
+			}
+			
 		}
 	
 		
