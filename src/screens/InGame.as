@@ -315,6 +315,7 @@ package screens
 			}
 
 			// om man träffar högra väggen
+
 			for(var i:int = 0; i < iceblocks.length; i++) {
 				if(iceblocks[i].bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)) {
 					if(jumpDirection) {
@@ -493,6 +494,11 @@ package screens
 		 */
 		private function checkElapsed(event:Event):void
 		{
+			if(scoreDistance == 300){
+				bg.level(2);
+				
+			}
+			
 			timePrevious = timeCurrent;
 			timeCurrent = getTimer();
 			elapsed = (timeCurrent - timePrevious) * 0.001;

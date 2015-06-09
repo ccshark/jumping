@@ -22,9 +22,7 @@ package objects
 		//----------------------------------------------------
 		public var image1:Image;
 		public var image2:Image;
-		public var block:Image;
-		
-		public var iceblocks:Vector.<Image> = new Vector.<Image>;
+
 		
 		//----------------------------------------------------
 		// Private properties
@@ -35,6 +33,9 @@ package objects
 		//----------------------------------------------------
 		// Constructor
 		//----------------------------------------------------
+		private var previousImage:Image;
+		private var _level:int = 1;
+		public var change:Boolean = false;
 		
 		/**
 		 * Initierar klassen och tar emot vilket lager som ska placeras.
@@ -61,39 +62,25 @@ package objects
 			if (_layer == 1)
 			{
 				image1 = new Image(Assets.getTexture("BgLayer" + _layer));
-				image2 = new Image(Assets.getTexture("BgLayer" + _layer));
+				image2 =  new Image(Assets.getTexture("BgLayer" + _layer));
+				
 			}
 			else
 			{
-				image1 = new Image(Assets.getAtlas().getTexture("icewall"));
-				image2 = new Image(Assets.getAtlas().getTexture("icewall"));
-				block = new Image(Assets.getAtlas().getTexture("iceblock"));
-				
-				block.x = 400;
-				block.y = 500;
-				block.scaleY = 1; //temp
-				
-				this.addChild(block);
-				
-				iceblocks.push(block);
-				
 				
 			}
 			
-			image1.x = -20;
-			image1.y = stage.stageHeight - image1.height - 300;
-			image1.scaleY = 4; //temp
+			image1.x = 0;
+			image1.y = 0;
 			
-			image2.x = stage.stageWidth - image2.width + 30;
-			image2.y = image1.y;
-			image2.scaleY = 4; //temp
-
+			image2.y = image1.y + image1.height - 20;
 			
-			this.addChild(image1);
+			
 			this.addChild(image2);
+			this.addChild(image1);
 			
-			iceblocks.push(image1);
-			iceblocks.push(image2);
+			
+			
 			
 			
 		}
@@ -117,26 +104,38 @@ package objects
 			_parallax = value;
 		}
 		
+		public function changeLevelDesign(level):void{
+			
+			_level = level;
+			change = true;
+			
+			image2 =  new Image(Assets.getTexture("BgLayer" + _level));
+			image2.y = image1.y + image1.height;
+			this.addChild(image2);
+			
+			
+			
+		}
+		
+		public function makeChanges():void{
+		
+			if(_level == 2){
+				
+				this.removeChild(image1);
+				image1 = null
+				
+				image1 =  new Image(Assets.getTexture("BgLayer" + _level));
+				image1.y = 0
+				this.addChild(image1);
+			}
+		}
+		
 		//----------------------------------------------------
 		// Private methods
 		//----------------------------------------------------
 		
-		private function setIceblock():void {
-			block = new Image(Assets.getTexture("BgLayer" + _layer));
-		}
+	
 		
-		private function createIceblocks():void {
-			
-			block.scaleX = 1;
-			block.scaleY = 2;
-			
-			block.x = 500;
-			block.y = stage.stageHeight;
-			
-			this.addChild(block);
-			
-			iceblocks.push(block);
-			
-		}
+		
 	}
 }

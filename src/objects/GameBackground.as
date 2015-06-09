@@ -23,9 +23,14 @@ package objects
 		
 		private var _speed:Number = 0;
 		
+		private var levelArray:Array = new Array();
+		
+		
+		
 		//----------------------------------------------------------------------
 		// Constructor method
 		//----------------------------------------------------------------------
+		
 		
 		public function GameBackground()
 		{
@@ -69,17 +74,28 @@ package objects
 		private function onEnterFrame(event:Event):void
 		{
 			bgLayer1.y -= Math.ceil(_speed * bgLayer1.parallax);
-			if (bgLayer1.y < -stage.stageHeight * 2) bgLayer1.y = 0;
+			if (bgLayer1.y < -stage.stageHeight *2) {
+				bgLayer1.y = 0;
+				if(bgLayer1.change == true){
+					bgLayer1.change = false;
+					bgLayer1.makeChanges();
+				}
+			}
 			
 			/* bgLayer2.y -= Math.ceil(_speed * bgLayer2.parallax);
 			if (bgLayer2.y < -stage.stageHeight) bgLayer2.y = 0; */
 			
+
 			/* bgLayer3.y -= Math.ceil(_speed * bgLayer3.parallax);
 			if (bgLayer3.y < -stage.stageHeight) bgLayer3.y = 0;
 			
 			bgLayer4.y -= Math.ceil(_speed * bgLayer4.parallax);
 			if (bgLayer4.y < -stage.stageHeight) bgLayer4.y = 0; */
 		}
+		
+		
+		
+		
 		
 		/**
 		 * Hämtas ifrån inGame klassen
@@ -95,6 +111,16 @@ package objects
 		public function set speed(value:Number):void
 		{
 			_speed = value;
+		}
+		
+		/**
+		 *  Startar metoderna i lagrena som ska ändra leveldesigen, skickar med levelnummer
+		 */
+		public function  level(value:int):void{
+	
+			bgLayer1.changeLevelDesign(value);
+			//bgLayer2.changeLevelDesign(value);
+		 
 		}
 
 	}

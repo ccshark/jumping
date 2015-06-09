@@ -34,6 +34,9 @@ package
 		[Embed(source="../media/graphics/bgLayer1.jpg")]
 		public static const BgLayer1:Class;
 		
+		[Embed(source="../media/graphics/bgLayer2.jpg")]
+		public static const BgLayer2:Class;
+		
 		/* Bibliotek för grafiken */
 		private static var gameTextures:Dictionary = new Dictionary();
 		private static var gameTextureAtlas:TextureAtlas;
