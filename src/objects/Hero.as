@@ -49,7 +49,8 @@ package objects
 		 */
 		private function createHeroHitPoints():void
 		{
-			
+			hitPointAxe.x = 0;
+			hitPointAxe.y = 0;
 		
 		}
 		

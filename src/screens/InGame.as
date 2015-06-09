@@ -257,7 +257,7 @@ package screens
 		private function flyingMode():void
 		{
 			hero.x -= (hero.x - touchX) * 0.1;
-			hero.hitPointAxe.x = hero.x + 50;
+			
 			// Om jump är sant ska spelaren röra sig
 			if(jump == true){
 				if(jumpDirection == false) touchX += 10;
@@ -279,6 +279,14 @@ package screens
 				}
 			}
 			
+			//Gör så att spelaren stannar vid isväggarna
+			if(jumpDirection) {
+				hero.hitPointAxe.x = hero.x - 150;
+			}
+			else if(!jumpDirection) {
+				hero.hitPointAxe.x = hero.x + 150;
+			}
+
 			// om man träffar högra väggen
 			if (bg.bgLayer2.image2.bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y) && jumpDirection == false)
 			{	
@@ -298,10 +306,6 @@ package screens
 				
 				
 			} 
-			
-			
-			
-			
 			
 		}		
 		
