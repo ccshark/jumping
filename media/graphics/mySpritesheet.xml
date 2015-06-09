@@ -1,9 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="mySpritesheet.png">
-	<!-- Created with Adobe Flash Professional version 14.1.0.96 -->
-	<!-- http://www.adobe.com/products/flash.html -->
-	<SubTexture name="Bozo_GFX instance 10000" x="0" y="0" width="174" height="177"/>
-	<SubTexture name="Symbol 1 instance 10000" x="0" y="177" width="83" height="1202"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:397fae9b1249a6718924ab3480aa757f:ab7f8894a978fda3c65af508f15a116a:ef7663426bf705b25566a93aef3a1571$ -->
+<TextureAtlas imagePath="spritesheet.png">
+    <SubTexture name="Bozo_GFX" x="81" y="2" width="173" height="176"/>
+    <SubTexture name="iceblock" x="81" y="180" width="73" height="131"/>
+    <SubTexture name="icewall" x="2" y="2" width="77" height="353"/>
+    <SubTexture name="smallIceblock" x="156" y="180" width="51" height="84"/>
+
+
+
+
+
 
     <SubTexture name="about_backButton" x="2" y="2" width="124" height="61"/>
     <SubTexture name="about_hsharmaLogo" x="128" y="2" width="184" height="65"/>

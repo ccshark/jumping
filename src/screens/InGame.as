@@ -295,6 +295,8 @@ package screens
 
 			// om man träffar högra väggen
 			
+			trace(bg.bgLayer2.iceblocks[0].y);
+			
 			for(var i:int = 0; i < bg.bgLayer2.iceblocks.length; i++) {
 				if(bg.bgLayer2.iceblocks[i].bounds.contains(hero.hitPointAxe.x, hero.hitPointAxe.y)) {
 					if(jumpDirection) {

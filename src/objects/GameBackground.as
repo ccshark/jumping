@@ -69,7 +69,7 @@ package objects
 		private function onEnterFrame(event:Event):void
 		{
 			bgLayer1.y -= Math.ceil(_speed * bgLayer1.parallax);
-			if (bgLayer1.y < -stage.stageHeight) bgLayer1.y = 0;
+			if (bgLayer1.y < -stage.stageHeight * 2) bgLayer1.y = 0;
 			
 			 bgLayer2.y -= Math.ceil(_speed * bgLayer2.parallax);
 			if (bgLayer2.y < -stage.stageHeight) bgLayer2.y = 0;

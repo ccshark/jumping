@@ -61,7 +61,7 @@ package objects
 		 */
 		private function createHeroArt():void
 		{
-			heroArt = new MovieClip(Assets.getAtlas().getTextures("Bozo_GFX instance 10000"), 1);
+			heroArt = new MovieClip(Assets.getAtlas().getTextures("Bozo_GFX"), 1);
 			heroArt.x = Math.ceil(-heroArt.width/2);
 			heroArt.y = Math.ceil(-heroArt.height/2);
 			starling.core.Starling.juggler.add(heroArt);

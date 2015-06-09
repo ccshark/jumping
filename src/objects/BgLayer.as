@@ -62,35 +62,35 @@ package objects
 			{
 				image1 = new Image(Assets.getTexture("BgLayer" + _layer));
 				image2 = new Image(Assets.getTexture("BgLayer" + _layer));
-				block = new Image(Assets.getTexture("BgLayer" + _layer));
 			}
 			else
 			{
-				image1 = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
-				image2 = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
-				block = new Image(Assets.getAtlas().getTexture("Symbol 1 instance 10000"));
+				image1 = new Image(Assets.getAtlas().getTexture("icewall"));
+				image2 = new Image(Assets.getAtlas().getTexture("icewall"));
+				block = new Image(Assets.getAtlas().getTexture("iceblock"));
+				
+				block.x = 400;
+				block.y = 500;
+				block.scaleY = 1; //temp
+				
+				this.addChild(block);
+				
+				iceblocks.push(block);
 				
 				
 			}
 			
-			image1.x = 0;
-			image1.y = stage.stageHeight - image1.height;
-			image1.scaleY = 2; //temp
+			image1.x = -20;
+			image1.y = stage.stageHeight - image1.height - 300;
+			image1.scaleY = 4; //temp
 			
-			image2.x = stage.stageWidth - image2.width;
+			image2.x = stage.stageWidth - image2.width + 30;
 			image2.y = image1.y;
-			image2.scaleY = 2; //temp
-			
-			block.x = 400;
-			block.y = 2000;//stage.stageHeight - image1.height;
-			block.scaleY = 2; //temp
+			image2.scaleY = 4; //temp
+
 			
 			this.addChild(image1);
 			this.addChild(image2);
-			
-			this.addChild(block);
-			
-			iceblocks.push(block);
 			
 			iceblocks.push(image1);
 			iceblocks.push(image2);

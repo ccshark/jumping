@@ -65,7 +65,7 @@ package screens
 			hero.x = -hero.width;
 			hero.y = 100;
 			
-			playBtn = new Button(Assets.getAtlas().getTexture("Bozo_GFX instance 10000"));
+			playBtn = new Button(Assets.getAtlas().getTexture("Bozo_GFX"));
 			playBtn.x = 500;
 			playBtn.y = 260;
 			this.addChild(playBtn);
