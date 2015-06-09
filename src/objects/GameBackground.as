@@ -44,7 +44,7 @@ package objects
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
 			bgLayer1 = new BgLayer(1);
-			bgLayer1.parallax = 0.02;
+			bgLayer1.parallax = 0.8;
 			this.addChild(bgLayer1);
 			
 			bgLayer2 = new BgLayer(2);

@@ -74,7 +74,7 @@ package screens
 		private var inAir:Boolean = false; 
 		
 		/** Boolean om spelaren ska hoppa*/
-		private var jump:Boolean = false 
+		private var jump:Boolean = true; 
 			
 		/** åt vilket håll spelaren ska röra sig, false = höger, true = vänster */
 		private var jumpDirection:Boolean; 
@@ -212,7 +212,7 @@ package screens
 				case "idle":
 					// Take off' används i början  av spelet.
 					
-					if (hero.x < stage.stageWidth * 0.5 * 0.5)
+					if (hero.x < stage.stageWidth * 0.4 * 0.4)
 					{
 						hero.x += ((stage.stageWidth * 0.5 * 0.5 + 10) - hero.x) * 0.05;
 						hero.y = stage.stageHeight * 0.5;
@@ -272,19 +272,19 @@ package screens
 				
 				//Roterar spelaren mitt i hoppet.
 				if(hero.x < 500) {
-					hero.scaleX = -1;
+					hero.scaleX = -hero.scaleY;
 				}
 				if(hero.x > 400) {
-					hero.scaleX = 1;
+					hero.scaleX = hero.sizeX;
 				}
 			}
 			
 			//Gör så att spelaren stannar vid isväggarna
 			if(jumpDirection) {
-				hero.hitPointAxe.x = hero.x - 150;
+				hero.hitPointAxe.x = hero.x - 130;
 			}
 			else if(!jumpDirection) {
-				hero.hitPointAxe.x = hero.x + 150;
+				hero.hitPointAxe.x = hero.x + 130;
 			}
 
 			// om man träffar högra väggen

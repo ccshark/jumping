@@ -21,7 +21,8 @@ package objects
 		private var heroArt:MovieClip;
 		
 		public var hitPointAxe:Point = new Point(0,0);
-		
+		public var sizeY:Number = 0.5;
+		public var sizeX:Number = 0.5;
 		//----------------------------------------------------------------------
 		// Constructor method
 		//----------------------------------------------------------------------
@@ -65,6 +66,9 @@ package objects
 			heroArt.x = Math.ceil(-heroArt.width/2);
 			heroArt.y = Math.ceil(-heroArt.height/2);
 			starling.core.Starling.juggler.add(heroArt);
+			
+			this.scaleX = sizeX;
+			this.scaleY = sizeY;
 			this.addChild(heroArt);
 		}
 	}
