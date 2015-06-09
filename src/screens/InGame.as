@@ -53,6 +53,10 @@ package screens
 		private var playerSpeed:Number; 
 		private const MIN_SPEED:Number = 650;
 		
+		/** Snabbhet i X-led vid hopp */
+		private var speedX:int = 13;
+		private var speedY:int = 2;
+		
 		/** Distansen */
 		private var scoreDistance:int;
 		
@@ -79,10 +83,17 @@ package screens
 		/** åt vilket håll spelaren ska röra sig, false = höger, true = vänster */
 		private var jumpDirection:Boolean; 
 		
+		/** Jump motion */
+		private var jumpStart:Number = 1; // hur mycket _jumpProgress är som orginalvalue, WV = 1
+		private var fallingSpeed:Number = 1.048; // WV = 1.035, högre värde , längre drop
+		private var _jumpProgress:Number = jumpStart; // // Hur mycket spelaren faller varje frame
+		private var jumpPush:int = 0; // Värde som bestämmer hur länge pushen från väggen ska gälla
+		
 		
 		//----------------------------------------------------------------------
 		// Constructor method
 		//----------------------------------------------------------------------
+		
 		
 		public function InGame()
 		{
@@ -215,7 +226,7 @@ package screens
 					if (hero.x < stage.stageWidth * 0.4 * 0.4)
 					{
 						hero.x += ((stage.stageWidth * 0.5 * 0.5 + 10) - hero.x) * 0.05;
-						hero.y = stage.stageHeight * 0.5;
+						hero.y = stage.stageHeight * 0.4;
 						
 						playerSpeed += (MIN_SPEED - playerSpeed) * 0.05;
 						bg.speed = playerSpeed * elapsed;
@@ -239,8 +250,8 @@ package screens
 					}
 				
 					
-					playerSpeed -= (playerSpeed - MIN_SPEED) * 0.1; // 
-					bg.speed = playerSpeed * elapsed; // snabbheten på banrenderingen
+					//playerSpeed -= (playerSpeed - MIN_SPEED) * 0.1; // 
+					//bg.speed = playerSpeed * elapsed; // snabbheten på banrenderingen
 					
 					scoreDistance += (playerSpeed * elapsed) * 0.1;
 					scoreText.text = "Score: " + scoreDistance; //  Poängen
@@ -256,14 +267,10 @@ package screens
 		 */
 		private function flyingMode():void
 		{
-			hero.x -= (hero.x - touchX) * 0.1;
 			
-			// Om jump är sant ska spelaren röra sig
-			if(jump == true){
-				if(jumpDirection == false) touchX += 10;
-				else touchX -= 10;
-				
-			}
+			HeroMovement();
+			jumpCheck();
+			
 			
 			// Rotation på spelaren när man hoppar
 			if (-(hero.x - touchX) < 100 && -(hero.x - touchX) > -150)
@@ -272,19 +279,19 @@ package screens
 				
 				//Roterar spelaren mitt i hoppet.
 				if(hero.x < 500) {
-					hero.scaleX = -hero.scaleY;
+					hero.scaleX = -hero.sizeY;
 				}
-				if(hero.x > 400) {
+				if(hero.x > 500) {
 					hero.scaleX = hero.sizeX;
 				}
 			}
 			
 			//Gör så att spelaren stannar vid isväggarna
 			if(jumpDirection) {
-				hero.hitPointAxe.x = hero.x - 130;
+				hero.hitPointAxe.x = hero.x - 110;
 			}
 			else if(!jumpDirection) {
-				hero.hitPointAxe.x = hero.x + 130;
+				hero.hitPointAxe.x = hero.x + 110;
 			}
 
 			// om man träffar högra väggen
@@ -309,6 +316,44 @@ package screens
 			
 		}		
 		
+		/**
+		 *  OM spelaren hoppar
+		 */
+		private function jumpCheck():void
+		{
+			
+			
+			if(jump == true){
+				if(jumpDirection == false) touchX += speedX;
+				else touchX -= speedX;
+				
+				jumpPush++; 
+				if(jumpPush > 10) { // hur länge hoppet ska vara uppåt
+					
+					_jumpProgress *= fallingSpeed;
+					hero.y += _jumpProgress;
+				} else hero.y -= 3; // liten rörelse uppåt innan spelaren faller
+				
+				
+				
+				
+				
+			}else{
+				_jumpProgress = jumpStart; // Reset när spelaren avslutat hoppet
+				jumpPush = 0;
+			}
+			
+		}
+		
+		/**
+		 *  Hjältens rörelse i X och Y led
+		 */
+		private function HeroMovement():void
+		{
+			hero.x -= (hero.x - touchX) * 0.15; // spelarens Rörelse i X-led
+			if(jump == false) hero.y -= speedY; // om spelaren inte hoppar ska den glida längs väggen uppåt
+			
+		}		
 		
 		/**
 		 *  Skapar kamerarörelse, startas endast när spelaren träffar ett hinder

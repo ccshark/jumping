@@ -60,12 +60,12 @@ package screens
 			title.y = 20;
 			this.addChild(title);
 			
-			hero = new Image(Assets.getAtlas().getTexture("welcome_hero"));
+			hero = new Image(Assets.getAtlas().getTexture("welcome_title"));
 			this.addChild(hero);
 			hero.x = -hero.width;
-			hero.y = 100;
+			hero.y = 200;
 			
-			playBtn = new Button(Assets.getAtlas().getTexture("welcome_playButton"));
+			playBtn = new Button(Assets.getAtlas().getTexture("Bozo_GFX instance 10000"));
 			playBtn.x = 500;
 			playBtn.y = 260;
 			this.addChild(playBtn);
