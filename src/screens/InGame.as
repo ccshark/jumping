@@ -495,7 +495,7 @@ package screens
 		 */
 		private function checkElapsed(event:Event):void
 		{
-			if(scoreDistance == 100){
+			if(scoreDistance == 200){
 				bg.level(2);
 				
 			}

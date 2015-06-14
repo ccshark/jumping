@@ -26,22 +26,31 @@ package objects
 
 		public var imageArray:Array = [];
 		
+		/** Booleans för att kolla i vilket steg levelskiftet är i*/
+		public var change:Boolean = false;
+		public var change2:Boolean = false;
+		
+		
+		
 		//----------------------------------------------------
 		// Private properties
 		//----------------------------------------------------
 		private var _layer:int;
 		private var _parallax:Number;
 		
+		/** Bilden som innehöll levelskriftet*/
+		private var previousImage:Image;
+		
+		/** Vilken level*/
+		private var _level:int = 1;
+		
+		
 		//----------------------------------------------------
 		// Constructor
 		//----------------------------------------------------
-		private var previousImage:Image;
-		private var _level:int = 1;
-		public var change:Boolean = false;
-		public var changeAll:Boolean = false;
-		public var change2:Boolean = false;
-		public var clear:Boolean = false;
 		
+		
+			
 		/**
 		 * Initierar klassen och tar emot vilket lager som ska placeras.
 		 * ger klassen tillgång till stagen.
@@ -135,7 +144,7 @@ package objects
 				
 				if(imageArray[0].y < -imageArray[0].height){
 					
-					if(change2 == true) newLevel();
+					if(change2 == true && previousImage == imageArray[0]) newLevel();
 					if(change == true) transformation();
 					
 					
@@ -146,6 +155,7 @@ package objects
 					
 					imageArray[1].y = imageArray[0].y + imageArray[0].height;
 					imageArray[2].y = imageArray[1].y + imageArray[1].height;
+					
 				}
 				
 			
@@ -165,6 +175,10 @@ package objects
 			imageArray[0] = new Image(Assets.getTexture("BgLayer" + _level));
 			this.addChild(imageArray[0]);
 			
+			this.removeChild(imageArray[2]);
+			imageArray[2] = new Image(Assets.getTexture("BgLayer" + _level));
+			this.addChild(imageArray[2]);
+			
 			change2 = false;
 		}
 		
@@ -177,7 +191,9 @@ package objects
 			imageArray[0] = new Image(Assets.getTexture("BgLayer" + _level));
 			
 			this.removeChild(imageArray[2]);
-			imageArray[2] = new Image(Assets.getTexture("BgLayer" + _level));
+			imageArray[2] = new Image(Assets.getTexture("BgLayer" + _level + "change"));
+			
+			previousImage = imageArray[2];
 			
 			this.addChild(imageArray[0]);
 			this.addChild(imageArray[2]);
