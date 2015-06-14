@@ -73,14 +73,14 @@ package objects
 		 */
 		private function onEnterFrame(event:Event):void
 		{
-			bgLayer1.y -= Math.ceil(_speed * bgLayer1.parallax);
-			if (bgLayer1.y < -stage.stageHeight *2) {
-				bgLayer1.y = 0;
-				if(bgLayer1.change == true){
-					bgLayer1.change = false;
-					bgLayer1.makeChanges();
-				}
+			
+			for(var i:int = 0; i < 3; i++){
+				bgLayer1.imageArray[i].y -= Math.ceil(_speed * bgLayer1.parallax); 
 			}
+			
+			bgLayer1.movement();
+			
+			
 			
 			/* bgLayer2.y -= Math.ceil(_speed * bgLayer2.parallax);
 			if (bgLayer2.y < -stage.stageHeight) bgLayer2.y = 0; */

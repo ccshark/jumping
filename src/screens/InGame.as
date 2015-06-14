@@ -139,7 +139,7 @@ package screens
 			hero = new Hero();
 			hero.x = stage.stageWidth/2;
 			hero.y = stage.stageHeight/2;
-			this.addChild(hero);
+			this.addChild(hero); 
 			
 			startButton = new Button(Assets.getAtlas().getTexture("startButton"));
 			startButton.x = stage.stageWidth * 0.5 - startButton.width * 0.5;
@@ -399,7 +399,7 @@ package screens
 					obstacle.y = -300;
 				}
 				
-				this.addChild(obstacle);
+				this.addChildAt(obstacle, 1);
 				iceblocks.push(obstacle);
 			}
 	
@@ -463,7 +463,7 @@ package screens
 		{
 			var obstacle:Obstacle = new Obstacle(type, distance, true, 100); //Skapar ny obstacle instance
 			obstacle.x = 200; // start position
-			this.addChild(obstacle);
+			this.addChildAt(obstacle, 2);
 			iceblocks.push(obstacle);
 			
 			//olika startpositioner för blocken
@@ -478,6 +478,7 @@ package screens
 				{
 					obstacle.y = gameArea.bottom - obstacle.height;
 					obstacle.position = "bottom";
+					
 				}
 			}
 			else
@@ -494,7 +495,7 @@ package screens
 		 */
 		private function checkElapsed(event:Event):void
 		{
-			if(scoreDistance == 300){
+			if(scoreDistance == 100){
 				bg.level(2);
 				
 			}
